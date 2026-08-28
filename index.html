@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> 본이너스 영상 확인 </title>
+<title>영상 확인</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -13,15 +13,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px 20px;
+    gap: 60px;
+  }
+  section {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   h1 {
     font-size: 1.2rem;
     margin-bottom: 16px;
     font-weight: 500;
     color: #ccc;
+    text-align: center;
   }
   video {
     width: 100%;
@@ -33,11 +41,22 @@
 </style>
 </head>
 <body>
-  <h1>★이뮤니프 본이너스★</h1>
-  <video controls preload="auto">
-    <source src="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default.mp4" type="video/mp4">
-    브라우저가 video 태그를 지원하지 않습니다.
-  </video>
+
+  <section>
+    <h1>★이뮤니프 본이너스★</h1>
+    <video controls preload="auto">
+      <source src="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default.mp4" type="video/mp4">
+      브라우저가 video 태그를 지원하지 않습니다.
+    </video>
+  </section>
+
+  <section>
+    <h1>[AI휴먼] 미네랄이란 무엇인가</h1>
+    <video controls preload="auto">
+      <source src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/default.mp4" type="video/mp4">
+      브라우저가 video 태그를 지원하지 않습니다.
+    </video>
+  </section>
+
 </body>
 </html>
-
