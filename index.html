@@ -75,6 +75,8 @@
     background: #000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
   }
+  /* 이미지 개수와 무관하게 JS가 opacity를 제어합니다.
+     (이미지를 몇 장을 추가/삭제해도 코드 수정 불필요) */
   .char-slider img {
     position: absolute;
     top: 0; left: 0;
@@ -82,17 +84,10 @@
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    animation: charFade 12s infinite;
+    transition: opacity 1s ease-in-out;
   }
-  .char-slider img:nth-child(1) { animation-delay: 0s; }
-  .char-slider img:nth-child(2) { animation-delay: 4s; }
-  .char-slider img:nth-child(3) { animation-delay: 8s; }
-  @keyframes charFade {
-    0%   { opacity: 0; }
-    5%   { opacity: 1; }
-    28%  { opacity: 1; }
-    33%  { opacity: 0; }
-    100% { opacity: 0; }
+  .char-slider img.is-active {
+    opacity: 1;
   }
   .char-text {
     font-size: 0.95rem;
@@ -136,7 +131,7 @@
         <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/rock.png" alt="모델 기초">
       </div>
       <div class="char-right-col">
-        <!-- 이미지 슬라이더: 이미지 경로를 원하는 이미지로 교체하세요 (자동 전환) -->
+        <!-- 이미지 슬라이더: img 태그를 자유롭게 추가/삭제하세요 (개수 제한 없음, 자동 전환) -->
         <div class="char-slider">
           <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/JU1iEutQ.png" alt="캐릭터 이미지 1">
           <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/k25QbHUz.png" alt="캐릭터 이미지 2">
@@ -154,5 +149,26 @@
       </div>
     </div>
   </section>
+
+  <script>
+    // 캐릭터 이미지 슬라이더: 이미지 개수와 무관하게 자동으로 순환 (겹침/잔상 없음)
+    (function () {
+      var slider = document.querySelector('.char-slider');
+      if (!slider) return;
+      var slides = Array.prototype.slice.call(slider.querySelectorAll('img'));
+      if (slides.length === 0) return;
+
+      var current = 0;
+      slides[current].classList.add('is-active');
+
+      if (slides.length > 1) {
+        setInterval(function () {
+          slides[current].classList.remove('is-active');
+          current = (current + 1) % slides.length;
+          slides[current].classList.add('is-active');
+        }, 4000); // 4초마다 전환
+      }
+    })();
+  </script>
 </body>
 </html>
