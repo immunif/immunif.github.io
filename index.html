@@ -52,11 +52,12 @@
     background: #000;
     overflow: hidden;
   }
-  .yt-embed iframe {
+  .yt-embed video {
     width: 100%;
     height: 100%;
-    border: 0;
+    object-fit: contain;
     display: block;
+    background: #000;
   }
   .download-btn {
     display: flex;
@@ -112,24 +113,25 @@
 
     <!-- 5열 2줄 = 총 10개 영상 슬롯 (9:16 세로형)
          각 슬롯은 아래 VIDEOS 배열에서 관리합니다.
-         videoId, download 를 채우면 영상+다운로드 버튼이 표시되고,
-         videoId 를 null 로 두면 "NO FILE" 플레이스홀더가 자동으로 표시됩니다. -->
+         src에 깃허브 mp4 주소를 넣으면 영상 재생 + 다운로드 버튼이 표시되고,
+         src를 null 로 두면 "NO FILE" 플레이스홀더가 자동으로 표시됩니다. -->
     <div class="video-grid" id="videoGrid"></div>
   </section>
 
   <script>
-    // 영상 슬롯 10개. videoId가 null이면 "NO FILE"로 표시됩니다.
+    // 영상 슬롯 10개. src가 null이면 "NO FILE"로 표시됩니다.
+    // 재생과 다운로드 모두 같은 깃허브 mp4 주소(src)를 사용합니다.
     var VIDEOS = [
-      { videoId: "ykRNrFzW1rM", download: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega1.mp4" },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null },
-      { videoId: null, download: null }
+      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega1.mp4" },
+      { src: null },
+      { src: null },
+      { src: null },
+      { src: null },
+      { src: null },
+      { src: null },
+      { src: null },
+      { src: null },
+      { src: null }
     ];
 
     var grid = document.getElementById('videoGrid');
@@ -141,13 +143,12 @@
       var embed = document.createElement('div');
       embed.className = 'yt-embed';
 
-      if (v.videoId) {
-        var iframe = document.createElement('iframe');
-        iframe.src = 'https://www.youtube.com/embed/' + v.videoId;
-        iframe.title = '이뮤니프 본이너스 ' + (i + 1);
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        iframe.allowFullscreen = true;
-        embed.appendChild(iframe);
+      if (v.src) {
+        var video = document.createElement('video');
+        video.src = v.src;
+        video.controls = true;
+        video.preload = 'metadata';
+        embed.appendChild(video);
       } else {
         var placeholder = document.createElement('div');
         placeholder.className = 'no-file';
@@ -159,8 +160,8 @@
       btn.className = 'download-btn';
       btn.textContent = '⬇ 다운로드';
 
-      if (v.download) {
-        btn.href = v.download;
+      if (v.src) {
+        btn.href = v.src;
         btn.setAttribute('download', '');
       } else {
         btn.classList.add('is-disabled');
