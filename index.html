@@ -19,30 +19,34 @@
   }
   section {
     width: 100%;
-    max-width: 960px;
+    max-width: 1400px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   h1 {
     font-size: 1.2rem;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     font-weight: 500;
     color: #ccc;
     text-align: center;
   }
-  video {
+
+  /* ===== 9:16 영상 그리드: 5열 2줄 ===== */
+  .video-grid {
     width: 100%;
-    max-width: 960px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    background: #000;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
   }
-  /* 유튜브 임베드 컨테이너: video 태그와 동일한 폭/모서리/그림자, 16:9 반응형 */
+  .video-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
   .yt-embed {
     width: 100%;
-    max-width: 960px;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 9 / 16;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     background: #000;
@@ -54,177 +58,112 @@
     border: 0;
     display: block;
   }
-  .yt-download-row {
-    width: 100%;
-    max-width: 960px;
+  .download-btn {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
-  }
-  .yt-download-row .download-btn {
-    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
     border-radius: 6px;
     background: #FFFFF0;
     color: #111;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none;
+    text-align: center;
     transition: background 0.2s ease;
   }
-  .yt-download-row .download-btn:hover {
+  .download-btn:hover {
     background: #e6bf00;
   }
-  /* ===== 캐릭터 설명 섹션 ===== */
-  .char-section h1 {
-    align-self: flex-start;
-    text-align: left;
-  }
-  .char-row {
-    width: 100%;
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-  }
-  .char-video-box {
-    flex: 1 1 45%;
-    display: flex;
-  }
-  .char-video-box video,
-  .char-video-box img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  .char-right-col {
-    flex: 1 1 55%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .char-slider {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  }
-  /* 이미지 개수와 무관하게 JS가 opacity를 제어합니다.
-     (이미지를 몇 장을 추가/삭제해도 코드 수정 불필요) */
-  .char-slider img {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-  .char-slider img.is-active {
-    opacity: 1;
-  }
-  .char-text {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: #ccc;
-  }
-  .char-text strong {
-    display: block;
-    color: #eee;
-    margin-bottom: 6px;
-    font-weight: 600;
+
+  @media (max-width: 1100px) {
+    .video-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 640px) {
-    .char-row { flex-direction: column; }
+    .video-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body><br>
   <section>
     <h1>★이뮤니프 본이너스★</h1>
-    <div class="yt-embed">
-      <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-    <!-- mp4 다운로드 버튼: href를 실제 릴리즈 mp4 주소로 교체하세요 -->
-    <div class="yt-download-row">
-      <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default.mp4" download>
-        ⬇ 영상 다운로드 (mp4)
-      </a>
-    </div>
-  </section>
 
- <section>
-    <h1>[AI휴먼] 미네랄이란 무엇인가</h1>
-    <div class="yt-embed">
-      <iframe src="https://www.youtube.com/embed/gLlXZE-6AgM" title="[AI휴먼]미네랄이란 무엇인가 영상확인용 (일부공개전용)"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-    <!-- mp4 다운로드 버튼: href를 실제 릴리즈 mp4 주소로 교체하세요 -->
-    <div class="yt-download-row">
-      <a class="download-btn" href="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/default.mp4" download>
-        ⬇ 영상 다운로드 (mp4)
-      </a>
+    <!-- 5열 2줄 = 총 10개 영상 슬롯 (9:16 세로형) -->
+    <!-- 각 .video-cell 안의 유튜브 embed src와 다운로드 버튼 href를 실제 영상으로 교체하세요 -->
+    <div class="video-grid">
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default1.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default2.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default3.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default4.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 5" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default5.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 6" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default6.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 7" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default7.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default8.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 9" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default9.mp4" download>⬇ 다운로드</a>
+      </div>
+
+      <div class="video-cell">
+        <div class="yt-embed">
+          <iframe src="https://www.youtube.com/embed/ykRNrFzW1rM" title="이뮤니프 본이너스 10" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <a class="download-btn" href="https://github.com/immunif/immunif.github.io/releases/download/v1.0/default10.mp4" download>⬇ 다운로드</a>
+      </div>
+
     </div>
   </section>
- 
- <!-- <section>
-    <h1>[AI휴먼] 미네랄이란 무엇인가</h1>
-    <video controls preload="auto">
-      <source src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/default.mp4" type="video/mp4">
-      브라우저가 video 태그를 지원하지 않습니다.
-    </video>
-  </section> -->
- <br>
-  <!-- 캐릭터 설명 섹션 -->
-  <section class="char-section">
-    <h1>캐릭터 설명</h1>
-    <div class="char-row">
-      <div class="char-video-box">
-        <!-- 캐릭터 소개 이미지: src를 원하는 이미지 링크로 교체하세요 -->
-        <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/rock.png" alt="모델 기초">
-      </div>
-      <div class="char-right-col">
-        <!-- 이미지 슬라이더: img 태그를 자유롭게 추가/삭제하세요 (개수 제한 없음, 자동 전환) -->
-        <div class="char-slider">
-          <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/JU1iEutQ.png" alt="캐릭터 이미지 1">
-          <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/k25QbHUz.png" alt="캐릭터 이미지 2">
-          <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/rJAD8M2U.png" alt="캐릭터 이미지 3">
-          <img src="https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/hyMJh0IJ.png" alt="캐릭터 이미지 4">
-        </div>
-        <div class="char-text">
-          <strong>진행자 AI휴먼</strong>
-          *타켓 : 50대 후반 ~ 60대 초반 <br>
-          *느낌 : 한국중년남성,전문적인,친숙한,시니어 친화적
-          <br><br>
-          겉은 차분한 의사·연구원 같지만, <br>말을 걸면 다정하게 받아주는 시니어 형제 같은 느낌<br>
-          50~60대 시청자가 동질감(같은 시대)을 느끼면서도,<br> 본인보다 약간 더 성숙하고 믿음직한 인물
-         <br><br> <span style="color: #ffd400;">필요시 다운받아 활용하세요!</span>
-        </div>
-      </div>
-    </div>
-  </section>
- <br><br><br><br>
-  <script>
-    // 캐릭터 이미지 슬라이더: 이미지 개수와 무관하게 자동으로 순환 (겹침/잔상 없음)
-    (function () {
-      var slider = document.querySelector('.char-slider');
-      if (!slider) return;
-      var slides = Array.prototype.slice.call(slider.querySelectorAll('img'));
-      if (slides.length === 0) return;
-      var current = 0;
-      slides[current].classList.add('is-active');
-      if (slides.length > 1) {
-        setInterval(function () {
-          slides[current].classList.remove('is-active');
-          current = (current + 1) % slides.length;
-          slides[current].classList.add('is-active');
-        }, 3000); // 3초마다 전환
-      }
-    })();
-  </script>
 </body>
 </html>
