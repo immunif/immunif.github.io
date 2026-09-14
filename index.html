@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>숏츠용 영상확인</title>
+<title>비누영상확인</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -15,164 +15,44 @@
     align-items: center;
     min-height: 100vh;
     padding: 40px 20px;
-    gap: 60px;
   }
   section {
     width: 100%;
-    max-width: 1400px;
+    max-width: 960px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   h1 {
-    font-size: 1.6rem;
-    margin-bottom: 24px;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
     font-weight: 500;
     color: #ccc;
     text-align: center;
   }
-
-  /* ===== 9:16 영상 그리드: 5열 2줄 ===== */
-  .video-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-  }
-  .video-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
   .yt-embed {
     width: 100%;
-    aspect-ratio: 9 / 16;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     background: #000;
     overflow: hidden;
   }
-  .yt-embed video {
+  .yt-embed iframe {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    border: 0;
     display: block;
-    background: #000;
-  }
-  .download-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    background: #FFFFF0;
-    color: #111;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-    transition: background 0.2s ease;
-  }
-  .download-btn:hover {
-    background: #e6bf00;
-  }
-  .download-btn.is-disabled {
-    background: #444;
-    color: #888;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  /* 영상이 없을 때 표시되는 플레이스홀더 */
-  .no-file {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    border: 1px dashed #333;
-    border-radius: 8px;
-  }
-
-  @media (max-width: 1100px) {
-    .video-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 640px) {
-    .video-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
-<body><br>
+<body>
   <section>
-    <h1>★ 숏츠용 영상확인 ★</h1><br>
-
-    <!-- 5열 2줄 = 총 10개 영상 슬롯 (9:16 세로형)
-         각 슬롯은 아래 VIDEOS 배열에서 관리합니다.
-         src에 깃허브 mp4 주소를 넣으면 영상 재생 + 다운로드 버튼이 표시되고,
-         src를 null 로 두면 "NO FILE" 플레이스홀더가 자동으로 표시됩니다. -->
-    <div class="video-grid" id="videoGrid"></div>
+    <h1>비누 영상 확인(일부공애전용)</h1>
+    <div class="yt-embed">
+      <iframe src="https://www.youtube.com/embed/-Kv2nbNHQb0" title="비누영상확인" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
   </section>
-<br><br><br>
-  <script>
-    // 영상 슬롯 10개. src가 null이면 "NO FILE"로 표시됩니다.
-    // 재생과 다운로드 모두 같은 깃허브 mp4 주소(src)를 사용합니다.
-    var VIDEOS = [
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega1.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega2.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega3.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega4.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/mega5.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/bone1.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/bone2.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/bone3.mp4" },
-      { src: "https://github.com/Park-jh084/Park-jh084.github.io/releases/download/AI%ED%9C%B4%EB%A8%BC/bone4.mp4" },
-      { src: null }
-    ];
-
-    var grid = document.getElementById('videoGrid');
-
-    VIDEOS.forEach(function (v, i) {
-      var cell = document.createElement('div');
-      cell.className = 'video-cell';
-
-      var embed = document.createElement('div');
-      embed.className = 'yt-embed';
-
-      if (v.src) {
-        var video = document.createElement('video');
-        video.src = v.src;
-        video.controls = true;
-        video.preload = 'metadata';
-        embed.appendChild(video);
-      } else {
-        var placeholder = document.createElement('div');
-        placeholder.className = 'no-file';
-        placeholder.textContent = 'NO FILE';
-        embed.appendChild(placeholder);
-      }
-
-      var btn = document.createElement('a');
-      btn.className = 'download-btn';
-      btn.textContent = '⬇ 다운로드';
-
-      if (v.src) {
-        btn.href = v.src;
-        btn.setAttribute('download', '');
-      } else {
-        btn.classList.add('is-disabled');
-        btn.href = '#';
-        btn.textContent = 'NO FILE';
-      }
-
-      cell.appendChild(embed);
-      cell.appendChild(btn);
-      grid.appendChild(cell);
-    });
-  </script>
 </body>
 </html>
