@@ -6,7 +6,7 @@
 <title>쇼핑라이브 기획안</title>
 <!--
   ============================================================
-  이뮤니프 첫 쇼핑라이브 - 왼쪽 탭 페이지  v1.4 (2026-11-17)
+  이뮤니프 첫 쇼핑라이브 - 왼쪽 탭 페이지  v1.6 (2026-11-18)
   ------------------------------------------------------------
   [변경 기록]
   v1.0 아코디언 방식
@@ -15,6 +15,11 @@
   v1.3 카드(이미지) 탭 추가 - 1080x1920 세로 이미지 한 줄 5개, 클릭하면 크게 보기
        이미지 주소는 맨 아래 <script> 의 CARD_BASE / CARDS 에서 수정
   v1.4 카드 이미지 실제 주소 적용 (immunif/immunif.github.io 릴리즈 v1.0)
+  v1.5 (임시 URL용 별도 묶음 - 이미지 로컬 폴더 버전)
+  v1.6 카드 탭 맨 앞에 오프닝 영상(intro.mp4) 추가
+       - CARDS 에서 파일명이 .mp4 로 끝나면 자동으로 영상 칸이 됨
+       - 영상 칸: 빨간 테두리 + 가운데 큰 ▶ 버튼 + 「VIDEO」 배지 + 이름 앞 🎬
+       - 누르면 크게 열리고 바로 재생 (닫으면 자동 정지)
   ------------------------------------------------------------
   [수정 방법]
   1) 색상/글자크기 → 아래 :root 의 변수만 바꾸면 전체 적용
@@ -26,6 +31,7 @@
   5) 강조(형광펜) → <mark>강조할 글</mark>
   6) 카드 이미지 → 맨 아래 <script> 의 CARD_BASE(깃허브 릴리즈 주소)와
                    CARDS 목록(이름, 파일명)만 고치면 됨
+  7) 영상 추가   → CARDS 에 ["이름", "파일명.mp4"] 넣으면 영상 칸으로 표시
   ============================================================
 -->
 <style>
@@ -40,6 +46,7 @@
     --script-size:19px;    /* 프롬프터 대본 글자 크기 */
     --tab-width:220px;     /* 왼쪽 탭 메뉴 너비 */
     --card-cols:5;         /* 카드 이미지 한 줄 개수 */
+    --video:#e53935;       /* 영상 칸 표시 색 (빨강) */
   }
   *{box-sizing:border-box}
   body{margin:0;padding:24px 16px 60px;background:#f7f7f5;color:var(--text);
@@ -100,7 +107,22 @@
   .card-item .img-box{aspect-ratio:1080/1920;background:#eee;border:1px solid var(--line);
                       border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;
                       color:#999;font-size:.85em;text-align:center;white-space:pre-line;padding:6px}
-  .card-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .card-item img,.card-item video{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* 영상 칸 표시 */
+  .card-item .img-box{position:relative}
+  .card-item.is-video .img-box{border:3px solid var(--video);padding:0}
+  .card-item.is-video figcaption{color:var(--video)}
+  .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+            background:rgba(0,0,0,.25);pointer-events:none}
+  .play-btn span{width:64px;height:64px;border-radius:50%;background:rgba(229,57,53,.92);
+                 display:flex;align-items:center;justify-content:center;
+                 box-shadow:0 2px 10px rgba(0,0,0,.4)}
+  .play-btn span::after{content:"";margin-left:6px;border-style:solid;
+                        border-width:13px 0 13px 22px;border-color:transparent transparent transparent #fff}
+  .video-badge{position:absolute;top:8px;left:8px;background:var(--video);color:#fff;font-weight:700;
+               font-size:.75em;padding:2px 8px;border-radius:4px;letter-spacing:.5px;pointer-events:none}
+  .card-item.is-video:hover .play-btn span{transform:scale(1.08)}
   .card-item figcaption{text-align:center;font-weight:700;margin-top:6px;color:var(--main)}
   @media (max-width:760px){ .card-grid{grid-template-columns:repeat(2,1fr)} }
 
@@ -108,7 +130,8 @@
   .viewer{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99;
           align-items:center;justify-content:center;cursor:zoom-out}
   .viewer.show{display:flex}
-  .viewer img{max-height:94vh;max-width:94vw;border-radius:8px}
+  .viewer img,.viewer video{max-height:94vh;max-width:94vw;border-radius:8px}
+  .viewer video{cursor:default;background:#000}
   .viewer .v-title{position:absolute;top:14px;left:0;right:0;text-align:center;color:#fff;font-weight:700}
 
   /* ---------- 표현 주의사항 ---------- */
@@ -174,7 +197,7 @@
       <div class="seg">
         <h3>① 오프닝 <small>(00:30)</small></h3>
         <p class="script">안녕하세요! 반갑습니다. 식물에 시간을 더하는 발효 브랜드, 이뮤니프입니다. 오늘은 저희 이뮤니프가 처음으로 라이브로 인사드리는 날이에요. 조금 떨리지만, 오늘은 무엇을 파는 자리라기보다 저희가 어떤 마음으로 제품을 만드는지 천천히 보여드리는 자리로 준비했습니다. 들어오신 분들 채팅으로 인사 한 마디만 남겨 주시면 닉네임 불러 드릴게요.
-        <span class="card">카드 1</span> 오늘은 이렇게 진행하려합니다. 먼저 이뮤니프 이야기, 그다음 이번에 새로 나온 발효 플로라데카 오일, 그리고 샴푸바부터 페이셜앤바디바, 트리트먼트바까지 발효 비누 이야기, 마지막으로 하루 루틴까지 보여드릴게요. 오늘 이벤트도 두 가지 준비했어요. 채팅으로 가장 활발하게 함께해 주신 다섯 분을 '소통왕'으로 뽑고, 라이브 중에 구매하고 채팅에 '구매인증' 남겨 주신 분 중 다섯 분께도 선물을 드려요. 중간중간 퀴즈도 낼 테니 채팅으로 참여해 주시면 소통왕에 한발더 가까워지니 적극적으로 참여 해주세요. 그리고 아래 알림받기와 스토어 찜 한 번씩 눌러 주시면, 이뮤니프 다음 라이브 소식을 가장 먼저 받아보실 수 있어요.</p>
+        <span class="card">카드 1</span> 오늘은 이렇게 진행하려합니다. 먼저 이뮤니프 이야기, 그다음 이번에 새로 나온 발효 플로라데카 오일, 그리고 샴푸바부터 페이셜앤바디바, 트리트먼트바까지 발효 비누 이야기, 마지막으로 하루 루틴까지 보여드릴게요. 오늘 이벤트도 두 가지 준비했어요. 채팅으로 가장 활발하게 함께해 주신 다섯 분을 '활동왕'으로 뽑고, 라이브 중에 구매하고 채팅에 '구매인증' 남겨 주신 분 중 다섯 분께도 선물을 드려요. 중간중간 퀴즈도 낼 테니 채팅으로 참여해 주시면 활동왕에 한발더 가까워지니 적극적으로 참여 해주세요. 그리고 아래 알림받기와 스토어 찜 한 번씩 눌러 주시면, 이뮤니프 다음 라이브 소식을 가장 먼저 받아보실 수 있어요.</p>
       </div>
 
       <!-- ② -->
@@ -213,7 +236,7 @@
       <!-- ⑤ -->
       <div class="seg">
         <h3>⑤ 리캡 + 퀴즈 1 <small>(16:00)</small></h3>
-        <p class="script">지금 들어오신 분들 반갑습니다! 여기는 발효 브랜드 이뮤니프의 첫 라이브예요. 방금까지 새로 나온 발효 플로라데카 오일을 보여드렸고요, 얼굴·머리·몸까지 한 병으로 쓰는 오일입니다. 그럼 퀴즈 나갑니다! 플로라데카 오일에 들어간 '특별한 한 가지' 성분, 보골지 씨앗에서 얻는 이 성분의 이름은? 지금 채팅으로 남겨 주세요. 퀴즈를 맞히시면 소통왕에 한발 더 가까워져요!</p>
+        <p class="script">지금 들어오신 분들 반갑습니다! 여기는 발효 브랜드 이뮤니프의 첫 라이브예요. 방금까지 새로 나온 발효 플로라데카 오일을 보여드렸고요, 얼굴·머리·몸까지 한 병으로 쓰는 오일입니다. 그럼 퀴즈 나갑니다! 플로라데카 오일에 들어간 '특별한 한 가지' 성분, 보골지 씨앗에서 얻는 이 성분의 이름은? 지금 채팅으로 남겨 주세요. 퀴즈를 맞히시면 활동왕에 한발 더 가까워져요!</p>
         <p class="answer"><mark>정답: 바쿠치올</mark></p>
       </div>
 
@@ -257,7 +280,7 @@
       <!-- ⑨ -->
       <div class="seg">
         <h3>⑨ 리캡 + 퀴즈 2 <small>(31:00)</small></h3>
-        <p class="script">지금 오신 분들을 위해 다시 한번! 이뮤니프는 식물에 발효라는 시간을 더하는 브랜드예요. 오늘 발효 오일과 발효 비누 3종을 보여드렸고, 이제 이 제품들로 하루를 어떻게 쓰는지 보여드릴게요. 퀴즈 두 번째! 이뮤니프 발효 비누는 수백 년 전통의 이 도시 비누 제조 방식을 따랐어요. 어느 도시일까요? 채팅으로 남겨 주세요. 퀴즈를 맞히시면 소통왕에 한발 더 가까워져요!</p>
+        <p class="script">지금 오신 분들을 위해 다시 한번! 이뮤니프는 식물에 발효라는 시간을 더하는 브랜드예요. 오늘 발효 오일과 발효 비누 3종을 보여드렸고, 이제 이 제품들로 하루를 어떻게 쓰는지 보여드릴게요. 퀴즈 두 번째! 이뮤니프 발효 비누는 수백 년 전통의 이 도시 비누 제조 방식을 따랐어요. 어느 도시일까요? 채팅으로 남겨 주세요. 퀴즈를 맞히시면 활동왕에 한발 더 가까워져요!</p>
         <p class="answer"><mark>정답: 마르세유</mark></p>
       </div>
 
@@ -283,7 +306,7 @@
       <!-- ⑪ 소통왕 발표 -->
       <div class="seg">
         <h3>⑪ 소통왕 발표 <small>(37:00)</small></h3>
-        <p class="script"><span class="card">카드 7</span> 자, 이제 기다리시던 소통왕 발표입니다! 오늘 처음부터 끝까지 채팅으로 함께해 주신 다섯 분, 00님, 00님, 00님, 00님, 00님 축하드려요!<br>
+        <p class="script"><span class="card">카드 7</span> 자, 이제 기다리시던 활동왕 발표입니다! 오늘 처음부터 끝까지 채팅으로 함께해 주신 다섯 분, 00님, 00님, 00님, 00님, 00님 축하드려요!<br>
         보내드린 폼에 이력 기재 해주시면 되세요. 구매인증 이벤트는 방송이 끝날 때까지 참여하실 수 있고요, 주문 내역을 확인해서 <mark>11월 24일(화)</mark>에 스토어 공지로 다섯 분을 발표할게요. 당첨되신 분은 톡톡문의 해주시면 되세요.</p>
       </div>
 
@@ -348,7 +371,7 @@
   <!-- 이미지는 맨 아래 <script> 의 CARDS 목록에서 자동으로 채워짐 -->
   <section class="panel" id="cards">
     <h2>카드(이미지)</h2>
-    <p class="note">이미지를 누르면 크게 볼 수 있어요. (다시 누르거나 ESC로 닫기)</p>
+    <p class="note">이미지·영상을 누르면 크게 볼 수 있어요. 영상은 바로 재생돼요. (바깥 부분을 누르거나 ESC로 닫기)</p>
     <div class="card-grid" id="cardGrid"></div>
   </section>
 
@@ -378,7 +401,11 @@
 </div>
 
 <!-- 크게 보기 창 -->
-<div class="viewer" id="viewer"><div class="v-title" id="viewerTitle"></div><img id="viewerImg" alt=""></div>
+<div class="viewer" id="viewer">
+  <div class="v-title" id="viewerTitle"></div>
+  <img id="viewerImg" alt="">
+  <video id="viewerVideo" controls playsinline></video>
+</div>
 
 <script>
   /* =========================================================
@@ -391,6 +418,7 @@
      ========================================================= */
   var CARD_BASE = "https://github.com/immunif/immunif.github.io/releases/download/v1.0/";
   var CARDS = [
+    ["오프닝 영상", "intro.mp4"],
     ["카드 1",   "1.png"],
     ["카드 2",   "2.png"],
     ["카드 3",   "3.png"],
@@ -408,26 +436,61 @@
   var grid = document.getElementById('cardGrid');
   CARDS.forEach(function(c){
     var url = /^https?:\/\//.test(c[1]) ? c[1] : CARD_BASE + c[1];
+    var isVideo = /\.(mp4|webm|mov)$/i.test(c[1]);
     var fig = document.createElement('figure');
-    fig.className = 'card-item';
-    fig.innerHTML = '<div class="img-box"><img loading="lazy" alt=""></div><figcaption></figcaption>';
-    var img = fig.querySelector('img');
-    img.src = url;
-    img.alt = c[0];
-    img.onerror = function(){ this.parentNode.textContent = '이미지 없음\n' + c[1]; };
-    fig.querySelector('figcaption').textContent = c[0];
-    fig.addEventListener('click', function(){ openViewer(url, c[0]); });
+    fig.className = 'card-item' + (isVideo ? ' is-video' : '');
+    var box = document.createElement('div');
+    box.className = 'img-box';
+    var media;
+    if (isVideo) {
+      media = document.createElement('video');
+      media.src = url + '#t=0.1';        /* 첫 장면을 미리보기로 */
+      media.muted = true;
+      media.playsInline = true;
+      media.preload = 'metadata';
+      box.appendChild(media);
+      box.insertAdjacentHTML('beforeend', '<div class="play-btn"><span></span></div><div class="video-badge">VIDEO</div>');
+    } else {
+      media = document.createElement('img');
+      media.loading = 'lazy';
+      media.src = url;
+      media.alt = c[0];
+      box.appendChild(media);
+    }
+    media.onerror = function(){ box.textContent = (isVideo ? '영상 없음\n' : '이미지 없음\n') + c[1]; };
+    var cap = document.createElement('figcaption');
+    cap.textContent = (isVideo ? '🎬 ' : '') + c[0];
+    fig.appendChild(box);
+    fig.appendChild(cap);
+    fig.addEventListener('click', function(){ openViewer(url, c[0], isVideo); });
     grid.appendChild(fig);
   });
 
   var viewer = document.getElementById('viewer');
-  function openViewer(url, title){
-    document.getElementById('viewerImg').src = url;
-    document.getElementById('viewerTitle').textContent = title;
+  var vImg = document.getElementById('viewerImg');
+  var vVideo = document.getElementById('viewerVideo');
+  function openViewer(url, title, isVideo){
+    document.getElementById('viewerTitle').textContent = (isVideo ? '🎬 ' : '') + title;
+    if (isVideo) {
+      vImg.style.display = 'none';
+      vVideo.style.display = 'block';
+      vVideo.src = url;
+      vVideo.play().catch(function(){});
+    } else {
+      vVideo.pause();
+      vVideo.style.display = 'none';
+      vImg.style.display = 'block';
+      vImg.src = url;
+    }
     viewer.classList.add('show');
   }
-  viewer.addEventListener('click', function(){ viewer.classList.remove('show'); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') viewer.classList.remove('show'); });
+  function closeViewer(){
+    vVideo.pause();
+    viewer.classList.remove('show');
+  }
+  vVideo.addEventListener('click', function(e){ e.stopPropagation(); });  /* 영상 조작 중엔 안 닫힘 */
+  viewer.addEventListener('click', closeViewer);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeViewer(); });
 
   /* 탭 전환 */
   document.querySelectorAll('.tab').forEach(function(btn){
