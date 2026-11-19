@@ -6,7 +6,7 @@
 <title>쇼핑라이브 기획안</title>
 <!--
   ============================================================
-  이뮤니프 첫 쇼핑라이브 - 왼쪽 탭 페이지  v1.6 (2026-11-18)
+  이뮤니프 첫 쇼핑라이브 - 위쪽 탭 페이지  v1.7 (2026-11-19)
   ------------------------------------------------------------
   [변경 기록]
   v1.0 아코디언 방식
@@ -20,11 +20,15 @@
        - CARDS 에서 파일명이 .mp4 로 끝나면 자동으로 영상 칸이 됨
        - 영상 칸: 빨간 테두리 + 가운데 큰 ▶ 버튼 + 「VIDEO」 배지 + 이름 앞 🎬
        - 누르면 크게 열리고 바로 재생 (닫으면 자동 정지)
+  v1.7 탭 버튼을 왼쪽 → 위쪽 가로 한 줄로 이동 (PC·모바일 동일)
+       - 탭 높이 최소화 (위아래 여백 4px, 글자 조금 작게)
+       - 스크롤해도 탭 줄이 화면 위에 붙어 있음 (sticky)
+       - 탭 크기 조절 → :root 의 --tab-pad / --tab-size 변수
   ------------------------------------------------------------
   [수정 방법]
   1) 색상/글자크기 → 아래 :root 의 변수만 바꾸면 전체 적용
   2) 탭 추가 → 두 군데를 같은 이름으로 추가
-       ① 왼쪽 메뉴: <button class="tab" data-tab="새이름">탭 제목</button>
+       ① 위쪽 메뉴: <button class="tab" data-tab="새이름">탭 제목</button>
        ② 내용:     <section class="panel" id="새이름"> ... </section>
   3) 처음 열릴 탭 → 해당 button 과 section 에 class "active" 붙이기
   4) 카드 표시   → <span class="card">카드 1</span>
@@ -44,7 +48,8 @@
     --line:#dcdcdc;
     --font-size:16px;      /* 기본 글자 크기 */
     --script-size:19px;    /* 프롬프터 대본 글자 크기 */
-    --tab-width:220px;     /* 왼쪽 탭 메뉴 너비 */
+    --tab-pad:4px 14px;    /* 탭 버튼 안쪽 여백 (위아래 좌우) */
+    --tab-size:.95em;      /* 탭 버튼 글자 크기 */
     --card-cols:5;         /* 카드 이미지 한 줄 개수 */
     --video:#e53935;       /* 영상 칸 표시 색 (빨강) */
   }
@@ -56,25 +61,24 @@
   h1{font-size:1.6em;margin:0 0 4px;color:var(--main)}
   .subtitle{color:var(--sub);margin:0 0 24px}
 
-  /* ---------- 왼쪽 탭 + 오른쪽 내용 ---------- */
-  .layout{display:flex;gap:20px;align-items:flex-start}
-  .tabs{flex:0 0 var(--tab-width);display:flex;flex-direction:column;gap:8px;
-        position:sticky;top:20px}
-  .tab{all:unset;cursor:pointer;padding:16px 18px;border-radius:10px;background:#fff;
-       border:1px solid var(--line);font-weight:700;font-size:1.05em;color:var(--text)}
+  /* ---------- 위쪽 탭 + 아래 내용 ---------- */
+  .layout{display:flex;flex-direction:column;gap:10px}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:10;
+        background:#f7f7f5;padding:6px 0}
+  .tab{all:unset;cursor:pointer;padding:var(--tab-pad);border-radius:6px;background:#fff;
+       border:1px solid var(--line);font-weight:700;font-size:var(--tab-size);
+       line-height:1.4;color:var(--text);white-space:nowrap}
   .tab:hover{background:var(--main-light)}
   .tab.active{background:var(--main);color:#fff;border-color:var(--main)}
-  .content{flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px}
+  .content{min-width:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px}
   .panel{display:none}
   .panel.active{display:block}
   .panel > h2{margin:0 0 18px;color:var(--main);font-size:1.3em}
 
-  /* 화면이 좁으면(모바일) 탭을 위로 */
+  /* 화면이 좁으면(모바일) 탭을 칸에 꽉 채움 */
   @media (max-width:760px){
-    .layout{flex-direction:column}
-    .tabs{position:static;flex-direction:row;flex-wrap:wrap;width:100%}
-    .tab{flex:1;text-align:center;padding:12px 8px;font-size:.95em}
-    .content{width:100%;padding:16px}
+    .tab{flex:1;text-align:center;padding:4px 6px;font-size:.9em}
+    .content{padding:16px}
   }
 
   /* ---------- 공통 요소 ---------- */
@@ -148,7 +152,7 @@
 
   <div class="layout">
 
-  <!-- ==================== 왼쪽 탭 메뉴 ==================== -->
+  <!-- ==================== 위쪽 탭 메뉴 ==================== -->
   <nav class="tabs">
     <button class="tab active" data-tab="cuesheet">큐시트</button>
     <button class="tab" data-tab="script">프롬프터 대본</button>
@@ -157,7 +161,7 @@
     <button class="tab" data-tab="caution">표현 주의사항</button>
   </nav>
 
-  <!-- ==================== 오른쪽 내용 ==================== -->
+  <!-- ==================== 아래 내용 ==================== -->
   <main class="content">
 
   <!-- ==================== 내용 1 : 큐시트 ==================== -->
@@ -301,7 +305,7 @@
         <h3>⑪ Q&amp;A <small>(35:00)</small></h3>
         <p class="note">채팅 질문이 있으면 그것부터 답하고, 없으면 "이런 제품 보시면 많이들 궁금해하시는 질문이 있어요" 하고 아래에서 2~3개를 골라 <b>진행자가 직접 질문을 읽고 답한다.</b> (남은 질문은 방송 중간에 채팅이 조용할 때 꺼내 쓴다.)</p>
 
-        <p class="answer"><mark>👉 질문·답변 내용은 왼쪽 「Q&amp;A」 탭에 있어요.</mark></p>
+        <p class="answer"><mark>👉 질문·답변 내용은 위쪽 「Q&amp;A」 탭에 있어요.</mark></p>
       </div>
 
       <!-- ⑪ 소통왕 발표 -->
